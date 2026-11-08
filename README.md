@@ -43,7 +43,7 @@ The API base path is `/api/games`.
 | Create a game | `POST` | `/api/games` | `201 Created` with the new game |
 | Replace a game | `PUT` | `/api/games/{id}` | `200 OK` with the updated game |
 | Delete a game | `DELETE` | `/api/games/{id}` | `204 No Content` |
-| Automatically handled by flask | `OPTIONS` | `/api/game/{id}` | CORS headers |
+| Automatically handled by Flask | `OPTIONS` | `/api/games/{id}` | CORS headers |
 
 Requests that refer to a game ID that does not exist return `404 Not Found`. Invalid JSON or game data returns `400 Bad Request`.
 

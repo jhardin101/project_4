@@ -135,3 +135,9 @@ gameForm.addEventListener("submit", async (event) => {
         alert(`Could not create game: ${error.message}`);
     }
 });
+
+gameForm.addEventListener("reset", async (event) => {
+    editingGameId = null;
+    formHeading.textContent = "Add a New Game";
+    submitButton.value = "Add Game";
+})
