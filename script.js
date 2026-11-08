@@ -2,6 +2,12 @@ const API_URL = "http://127.0.0.1:5000/api/games";
 
 const collectionList = document.getElementById("collection_list");
 const emptyMessage = document.getElementById("empty_list_msg");
+const gameForm = document.getElementById("game_form");
+
+let editingGameId = null;
+
+const formHeading = document.getElementById("form_heading");
+const submitButton = document.getElementById("submit_button");
 
 async function loadGames() {
     try {
@@ -52,6 +58,28 @@ async function loadGames() {
 
             item.append(deleteButton);
 
+            // Edit Button
+            const editButton = document.createElement("button");
+            editButton.type = "button";
+            editButton.textContent = "Edit";
+
+            editButton.addEventListener("click", () => {
+                editingGameId = game.id;
+
+                gameForm.elements.title.value = game.title;
+                gameForm.elements.platform.value = game.platform;
+                gameForm.elements.genre.value = game.genre;
+                gameForm.elements.release_year.value = game.release_year;
+                gameForm.elements.status.value = game.status;
+                gameForm.elements.rating.value = game.rating ?? "";
+                gameForm.elements.notes.value = game.notes ?? "";
+
+                formHeading.textContent = "Edit Game";
+                submitButton.value = "Save Changes";
+                gameForm.scrollIntoView({behavior: "smooth"});
+            });
+            item.append(editButton);
+
             collectionList.append(item)
         }
     } catch (error) {
@@ -64,13 +92,16 @@ async function loadGames() {
 
 loadGames();
 
-const gameForm = document.getElementById("game_form");
+
 
 gameForm.addEventListener("submit", async (event) => {
     event.preventDefault();
 
     const formData = new FormData(gameForm);
     const ratingValue = formData.get("rating");
+    const isEditing = editingGameId !== null;
+    const method = isEditing ? "PUT" : "POST";
+    const url = isEditing ? `${API_URL}/${editingGameId}` : API_URL;
 
     const newGame = {
         title: formData.get("title"),
@@ -83,8 +114,8 @@ gameForm.addEventListener("submit", async (event) => {
     };
 
     try {
-        const response = await fetch(API_URL, {
-            method: "POST",
+        const response = await fetch(url, {
+            method: method,
             headers: {
                 "Content-Type":"application/json"
             },
