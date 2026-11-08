@@ -229,3 +229,22 @@ def add_cors_headers(response):
     response.headers["Access-Control-Allow-Methods"] = ("GET, POST, PUT, DELETE, OPTIONS")
     response.headers["Access-Control-Allow-Headers"] = "Content-Type"
     return response
+
+
+# Error Handlers
+@server.errorhandler(404)
+def not_found(error):
+    return jsonify({
+        "error":"Not found",
+        "message": "The requested URL was not found."
+    }), 404
+
+@server.errorhandler(405)
+def method_not_allowed(error):
+    response = error.get_response()
+    response.set_data(server.json.dumps({
+        "error":"Method not allowed",
+        "message":"This HTTP method is not supported for this URL."
+    }))
+    response.content_type = "application/json"
+    return response
