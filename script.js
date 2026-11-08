@@ -24,13 +24,32 @@ async function loadGames() {
 
         for (const game of games) {
             const item = document.createElement("li");
-            const title = document.createElement("strong");
-            title.textContent = game.title;
+            const gameDetails = document.createElement("details");
+            const summary = document.createElement("summary");
+            summary.textContent = `${game.title} -- ${game.platform}`;
 
-            const details = document.createElement("p");
-            details.textContent = `${game.platform} - ${game.genre} - ${game.status}`;
+            const attributes = document.createElement("dl");
 
-            item.append(title, details);
+            const fields = [
+                ["Genre", game.genre],
+                ["Release year", game.release_year],
+                ["Status", game.status],
+                ["Rating", game.rating ?? "Not rated"],
+                ["Notes", game.notes || "No notes"]
+            ];
+
+            for (const [label, value] of fields) {
+                const term = document.createElement("dt");
+                term.textContent = label;
+
+                const description = document.createElement("dd");
+                description.textContent = String(value);
+
+                attributes.append(term, description);
+            }
+
+            gameDetails.append(summary, attributes);
+            item.append(gameDetails);
 
             // Delete Button
             const deleteButton = document.createElement("button");
