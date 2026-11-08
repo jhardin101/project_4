@@ -1,4 +1,4 @@
-body{
+body {
     background-color: #F4F6FA;
     color: #1F2937;
     font-family: Arial, sans-serif;
@@ -18,4 +18,25 @@ form {
     margin: 1rem 0;
     border: 1px solid #DCE2EA;
     border-radius: 0.75rem;
+}
+
+form label {
+    display: inline-block;
+    width: 9rem;
+}
+
+form textarea {
+    vertical-align: top;
+}
+
+input[type="text"],
+input[type="number"],
+select,
+textarea {
+    box-sizing: border-box;
+    width: 18rem;
+    padding: 0.6rem;
+    border: 1px solid #DCE2EA;
+    border-radius: 0.4rem;
+    font: inherit;
 }
